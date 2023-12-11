@@ -29,10 +29,16 @@ file(GLOB_RECURSE source_files
     "${PROJECT_DIR}/src/include/*.h"
 )
 
+file(GLOB_RECURSE shader_files
+    "${PROJECT_DIR}/src/shaders/*.vert"
+    "${PROJECT_DIR}/src/shaders/*.frag"
+)
+source_group("Shaders" FILES ${shader_files})
+
 set(SOURCES ${source_files})
 
 # Executable
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${shader_files})
 
 # Set the output directory for the executable
 set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -44,6 +50,8 @@ target_link_libraries(${PROJECT_NAME} glad)
 target_link_libraries(${PROJECT_NAME} OpenGL::GL)
 
 # Headers
+target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_DIR}/src/include")
+
 target_include_directories(${PROJECT_NAME} PUBLIC "${IMGUI_DIR}")
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${GLM_DIR}")
