@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.25.0)
 set(PROJECT_NAME ProjectName)
-project(${PROJECT_NAME} VERSION 1.0 LANGUAGES CXX)
+project(${PROJECT_NAME} VERSION 1.0 LANGUAGES C)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED True)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR/bin})
 
 set(PROJECT_DIR ${CMAKE_SOURCE_DIR}/${PROJECT_NAME})
@@ -16,14 +16,6 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_DIR ${VENDOR_DIR}/glfw)
 add_subdirectory(${GLFW_DIR})
 
-# GLM
-set(GLM_DIR ${VENDOR_DIR}/glm)
-add_subdirectory(${GLM_DIR})
-
-# IMGUI
-set(IMGUI_DIR ${VENDOR_DIR}/imgui)
-add_subdirectory(${IMGUI_DIR})
-
 # GLAD
 set(GLAD_DIR ${VENDOR_DIR}/glad)
 add_subdirectory(${GLAD_DIR})
@@ -33,8 +25,8 @@ find_package(OpenGL REQUIRED)
 
 # Project Sources
 file(GLOB_RECURSE source_files
-    "${PROJECT_DIR}/src/*.cpp"
-    "${PROJECT_DIR}/src/include/*.hpp"
+    "${PROJECT_DIR}/src/*.c"
+    "${PROJECT_DIR}/src/include/*.h"
 )
 
 set(SOURCES ${source_files})
@@ -49,8 +41,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Libraries
 target_link_libraries(${PROJECT_NAME} glfw)
 target_link_libraries(${PROJECT_NAME} glad)
-target_link_libraries(${PROJECT_NAME} glm)
-target_link_libraries(${PROJECT_NAME} imgui)
 target_link_libraries(${PROJECT_NAME} OpenGL::GL)
 
 # Headers
@@ -60,6 +50,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC "${GLM_DIR}")
 target_include_directories(${PROJECT_NAME} PUBLIC "${GLFW_DIR}/include")
 target_include_directories(${PROJECT_NAME} PUBLIC "${GLAD_DIR}/include")
 
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+# target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 
 install(TARGETS ${PROJECT_NAME})
